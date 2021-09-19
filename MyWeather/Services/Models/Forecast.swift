@@ -11,4 +11,11 @@ struct Forecast: Decodable {
 
 struct Forecastday: Decodable {
     let date: String
+    let day: Day
+}
+
+struct Day: Decodable {
+    let maxtempC: Double
+    let mintempC: Double
+    let condition: Condition
 }

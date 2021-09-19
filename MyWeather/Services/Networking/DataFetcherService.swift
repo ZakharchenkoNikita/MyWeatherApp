@@ -16,7 +16,7 @@ class DataFetcherService {
     }
     
     func fetchWeather(completion: @escaping (Weather?) -> Void) {
-       let url = "https://api.weatherapi.com/v1/forecast.json?key=6dbb04651d5d47ceab8134427210909&q=Odesa&days=3&aqi=no&alerts=no"
+        let url = "https://api.weatherapi.com/v1/forecast.json?key=6dbb04651d5d47ceab8134427210909&q=Odesa&days=3&aqi=no&alerts=no"
         networkDataFetcher.fetchJSONData(urlString: url, response: completion)
     }
 }

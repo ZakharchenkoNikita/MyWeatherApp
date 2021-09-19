@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         dataFetcherService.fetchWeather { weather in
             if let weather = weather {
-                print(weather.current.tempC)
+                print(weather.forecast.forecastday.first?.day.condition.text ?? "")
             }
         }
     }
