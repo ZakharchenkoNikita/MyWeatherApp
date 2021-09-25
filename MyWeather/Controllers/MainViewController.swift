@@ -5,8 +5,8 @@
 //  Created by Nikita on 18.09.21.
 //
 
-import UIKit
 import CoreLocation
+import RealmSwift
 
 class MainViewController: UIViewController {
     
@@ -31,6 +31,9 @@ class MainViewController: UIViewController {
         return locationManager
     }()
     
+    // MARK: Private properties
+      private var currentWeather: Results<Weather>!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         menuItems = setupMenuItems()
@@ -38,6 +41,25 @@ class MainViewController: UIViewController {
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.requestLocation()
+        }
+        currentWeather = StorageManager.shared.realm.objects(Weather.self)
+        
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
+            print("таймер закончен")
+        }
+        
+//        fetchWeather()
+    }
+    
+    private func fetchWeather() {
+        dataFetcherService.fetchWeather(cityName: "Odesa") { weather in
+            if let weather = weather {
+                if let name = self.currentWeather.first?.location?.name, name != "" {
+                    self.cityNameLabel.text = name
+                } else {
+                    StorageManager.shared.saveObject(object: weather)
+                }
+            }
         }
     }
 }
@@ -71,8 +93,8 @@ extension MainViewController {
     }
     
     private func setupView(weather: Weather) {
-        cityNameLabel.text = weather.location.name
-        currentTempLabel.text = String(lround(weather.current.tempC))
+        cityNameLabel.text = weather.location?.name ?? ""
+        currentTempLabel.text = String(weather.current?.tempC ?? 0.0)
     }
 }
 
@@ -84,11 +106,16 @@ extension MainViewController: CLLocationManagerDelegate {
         
         dataFetcherService.fetchWeather(latitude: latitude, longitude: longitude) { [unowned self] weather in
             if let weather = weather {
+                if currentWeather.first?.location == nil {
+                    StorageManager.shared.saveObject(object: weather)
+                } else {
+                    print(weather.current?.lastUpdated)
+                }
                 setupView(weather: weather)
             }
         }
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
     }

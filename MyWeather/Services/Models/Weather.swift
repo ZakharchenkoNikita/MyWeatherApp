@@ -5,8 +5,10 @@
 //  Created by Nikita on 18.09.21.
 //
 
-struct Weather: Decodable {
-    let location: Location
-    let current: Current
-    let forecast: Forecast
+import RealmSwift
+
+class Weather: Object, Decodable {
+    @objc dynamic var location: Location?
+    @objc dynamic var current: Current?
+//    let forecast = List<Forecast>()
 }

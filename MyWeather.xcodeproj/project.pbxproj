@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,6 +22,8 @@
 		11A213C026F5F5FF00452F22 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A213BF26F5F5FF00452F22 /* Location.swift */; };
 		11A213C326F5F7CC00452F22 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A213C226F5F7CC00452F22 /* NetworkService.swift */; };
 		11A213C626F5F91F00452F22 /* NetworkDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A213C526F5F91F00452F22 /* NetworkDataFetcher.swift */; };
+		11FC506D26FF507B00F88320 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11FC506C26FF507B00F88320 /* StorageManager.swift */; };
+		B6BFCE4460EB567E50E04772 /* Pods_MyWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADFAB1D0967B4BE91272BFB9 /* Pods_MyWeather.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,10 @@
 		11A213BF26F5F5FF00452F22 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		11A213C226F5F7CC00452F22 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		11A213C526F5F91F00452F22 /* NetworkDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataFetcher.swift; sourceTree = "<group>"; };
+		11FC506C26FF507B00F88320 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		ADFAB1D0967B4BE91272BFB9 /* Pods_MyWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1899A4506D56B4F8961E701 /* Pods-MyWeather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyWeather.debug.xcconfig"; path = "Target Support Files/Pods-MyWeather/Pods-MyWeather.debug.xcconfig"; sourceTree = "<group>"; };
+		EB131762ED45BC0125DC869B /* Pods-MyWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyWeather.release.xcconfig"; path = "Target Support Files/Pods-MyWeather/Pods-MyWeather.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6BFCE4460EB567E50E04772 /* Pods_MyWeather.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +67,8 @@
 			children = (
 				11A213A626F5E4EE00452F22 /* MyWeather */,
 				11A213A526F5E4EE00452F22 /* Products */,
+				737C2C7F7F124063F23B1457 /* Pods */,
+				97B52DCE88D2F805B930F914 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -126,6 +135,7 @@
 		11A213C126F5F7C300452F22 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				11FC506626FF3CF300F88320 /* Helpers */,
 				11A213BD26F5E57C00452F22 /* Models */,
 				11A213C426F5F89300452F22 /* Networking */,
 			);
@@ -142,6 +152,31 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		11FC506626FF3CF300F88320 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				11FC506C26FF507B00F88320 /* StorageManager.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		737C2C7F7F124063F23B1457 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E1899A4506D56B4F8961E701 /* Pods-MyWeather.debug.xcconfig */,
+				EB131762ED45BC0125DC869B /* Pods-MyWeather.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		97B52DCE88D2F805B930F914 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ADFAB1D0967B4BE91272BFB9 /* Pods_MyWeather.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -149,9 +184,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 11A213B826F5E4EF00452F22 /* Build configuration list for PBXNativeTarget "MyWeather" */;
 			buildPhases = (
+				8CE0348F3077CCFA8F57C66E /* [CP] Check Pods Manifest.lock */,
 				11A213A026F5E4EE00452F22 /* Sources */,
 				11A213A126F5E4EE00452F22 /* Frameworks */,
 				11A213A226F5E4EE00452F22 /* Resources */,
+				BA198C2C1E70675589572D60 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -207,6 +244,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8CE0348F3077CCFA8F57C66E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MyWeather-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BA198C2C1E70675589572D60 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyWeather/Pods-MyWeather-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyWeather/Pods-MyWeather-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyWeather/Pods-MyWeather-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		11A213A026F5E4EE00452F22 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -224,6 +303,7 @@
 				11A213C026F5F5FF00452F22 /* Location.swift in Sources */,
 				11A213AA26F5E4EE00452F22 /* SceneDelegate.swift in Sources */,
 				110BF6D426F61B1C00D93016 /* Weather.swift in Sources */,
+				11FC506D26FF507B00F88320 /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,12 +447,14 @@
 		};
 		11A213B926F5E4EF00452F22 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1899A4506D56B4F8961E701 /* Pods-MyWeather.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9CHP9M644H;
 				INFOPLIST_FILE = "MyWeather/Support files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -386,12 +468,14 @@
 		};
 		11A213BA26F5E4EF00452F22 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EB131762ED45BC0125DC869B /* Pods-MyWeather.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9CHP9M644H;
 				INFOPLIST_FILE = "MyWeather/Support files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

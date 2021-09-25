@@ -5,13 +5,15 @@
 //  Created by Nikita on 18.09.21.
 //
 
-struct Location: Decodable {
-    let name: String
-    let region: String
-    let country: String
-    let lat: Double
-    let lon: Double
-    let tzId: String
-    let localtimeEpoch: Int
-    let localtime: String
+import RealmSwift
+
+class Location: Object, Decodable {
+    @objc dynamic var name = ""
+    @objc dynamic var region = ""
+    @objc dynamic var country = ""
+    @objc dynamic var lat = 0.0
+    @objc dynamic var lon = 0.0
+    @objc dynamic var tzId = ""
+    @objc dynamic var localtimeEpoch = 0
+    @objc dynamic var localtime = ""
 }
