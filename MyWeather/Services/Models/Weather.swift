@@ -10,5 +10,5 @@ import RealmSwift
 class Weather: Object, Decodable {
     @objc dynamic var location: Location?
     @objc dynamic var current: Current?
-//    let forecast = List<Forecast>()
+    @objc dynamic var forecast: Forecast?
 }

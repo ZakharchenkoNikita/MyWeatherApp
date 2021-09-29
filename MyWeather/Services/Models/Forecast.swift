@@ -5,17 +5,19 @@
 //  Created by Nikita on 18.09.21.
 //
 
-struct Forecast: Decodable {
-    let forecastday: [Forecastday]
+import RealmSwift
+
+class Forecast: Object, Decodable {
+    var forecastday = List<Forecastday>()
 }
 
-struct Forecastday: Decodable {
-    let date: String
-    let day: Day
+class Forecastday: Object, Decodable {
+    @objc dynamic var date = ""
+    @objc dynamic var day: Day?
 }
 
-struct Day: Decodable {
-    let maxtempC: Double
-    let mintempC: Double
-    let condition: Condition
+class Day: Object, Decodable {
+    @objc dynamic var maxtempC = 0.0
+    @objc dynamic var mintempC = 0.0
+    @objc dynamic var condition: Condition?
 }

@@ -31,6 +31,7 @@ class MainViewController: UIViewController {
     
     // MARK: Private properties
     private var currentWeather: Results<Weather>!
+    private var forecastday: Results<Forecastday>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,29 +40,21 @@ class MainViewController: UIViewController {
             locationManager.requestLocation()
         }
         currentWeather = StorageManager.shared.realm.objects(Weather.self)
+        forecastday = StorageManager.shared.realm.objects(Forecastday.self)
         
         Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
             print("таймер закончен")
         }
     }
     
-    private func fetchWeather() {
-        dataFetcherService.fetchWeather(cityName: "Odesa") { weather in
-            if let weather = weather {
-                if let name = self.currentWeather.first?.location?.name, name != "" {
-//                    self.cityNameLabel.text = name
-                } else {
-                    StorageManager.shared.saveObject(object: weather)
-                }
-            }
-        }
-    }
-    
     private func setupView(weather: Weather) {
         title = weather.location?.name ?? ""
         currentTempLabel.text = String(lround(weather.current?.tempC ?? 0))
-        conditionLabel.text = weather.current?.condition?.text ?? ""
         feelsLikeLabel.text = String(lround(weather.current?.feelslikeC ?? 0))
+        minTempLabel.text = String(lround(forecastday?.first?.day?.mintempC ?? 0))
+        maxTempLabel.text = String(lround(forecastday?.first?.day?.maxtempC ?? 0))
+        
+        conditionLabel.text = weather.current?.condition?.text ?? ""
     }
 }
 
@@ -84,7 +77,7 @@ extension MainViewController: CLLocationManagerDelegate {
                     
                     StorageManager.shared.saveObject(object: user)
                 } else {
-                    print(weather.current?.lastUpdated)
+                    
                 }
                 setupView(weather: weather)
             }
