@@ -10,8 +10,14 @@ import RealmSwift
 
 class MainViewController: UIViewController {
     
-    @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var currentTempLabel: UILabel!
+    @IBOutlet weak var minTempLabel: UILabel!
+    @IBOutlet weak var maxTempLabel: UILabel!
+    @IBOutlet weak var feelsLikeLabel: UILabel!
+    
+    @IBOutlet weak var conditionLabel: UILabel!
+    
+    @IBOutlet weak var conditionImage: UIImageView!
     
     var dataFetcherService = DataFetcherService()
 
@@ -24,7 +30,7 @@ class MainViewController: UIViewController {
     }()
     
     // MARK: Private properties
-      private var currentWeather: Results<Weather>!
+    private var currentWeather: Results<Weather>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +49,7 @@ class MainViewController: UIViewController {
         dataFetcherService.fetchWeather(cityName: "Odesa") { weather in
             if let weather = weather {
                 if let name = self.currentWeather.first?.location?.name, name != "" {
-                    self.cityNameLabel.text = name
+//                    self.cityNameLabel.text = name
                 } else {
                     StorageManager.shared.saveObject(object: weather)
                 }
@@ -52,8 +58,10 @@ class MainViewController: UIViewController {
     }
     
     private func setupView(weather: Weather) {
-        cityNameLabel.text = weather.location?.name ?? ""
-        currentTempLabel.text = String(weather.current?.tempC ?? 0.0)
+        title = weather.location?.name ?? ""
+        currentTempLabel.text = String(lround(weather.current?.tempC ?? 0))
+        conditionLabel.text = weather.current?.condition?.text ?? ""
+        feelsLikeLabel.text = String(lround(weather.current?.feelslikeC ?? 0))
     }
 }
 
