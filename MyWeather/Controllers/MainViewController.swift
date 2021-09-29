@@ -14,15 +14,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var currentTempLabel: UILabel!
     
     var dataFetcherService = DataFetcherService()
-    
-    var menuItems: [UIAction] = []
-    var searchMenu: UIMenu {
-        UIMenu(
-            options: [.displayInline],
-            children: menuItems
-        )
-    }
-    
+
     lazy var locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -36,8 +28,6 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        menuItems = setupMenuItems()
-        setupMenuButtons()
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.requestLocation()
@@ -47,8 +37,6 @@ class MainViewController: UIViewController {
         Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
             print("таймер закончен")
         }
-        
-//        fetchWeather()
     }
     
     private func fetchWeather() {
@@ -61,35 +49,6 @@ class MainViewController: UIViewController {
                 }
             }
         }
-    }
-}
-
-// MARK: Work with menu
-extension MainViewController {
-    private func setupMenuItems() -> [UIAction] {
-        [
-            UIAction(
-                title: "City name",
-                image: UIImage(systemName: "building"),
-                handler: { _ in
-                    print("Тест...")
-                }
-            ),
-            UIAction(
-                title: "Map",
-                image: UIImage(systemName: "location.circle"),
-                handler: { _ in
-                    print("Тест...")
-                }
-            )
-        ]
-    }
-    
-    private func setupMenuButtons() {
-        let addNewButton = UIBarButtonItem(
-            image: UIImage(systemName: "plus.square.fill"),
-            menu: searchMenu)
-        navigationItem.rightBarButtonItems = [addNewButton]
     }
     
     private func setupView(weather: Weather) {
@@ -107,7 +66,15 @@ extension MainViewController: CLLocationManagerDelegate {
         dataFetcherService.fetchWeather(latitude: latitude, longitude: longitude) { [unowned self] weather in
             if let weather = weather {
                 if currentWeather.first?.location == nil {
-                    StorageManager.shared.saveObject(object: weather)
+                    
+                    let city = Cities()
+                    city.name = weather.location?.name ?? ""
+                    city.weather = weather
+                    
+                    let user = User()
+                    user.cities.append(city)
+                    
+                    StorageManager.shared.saveObject(object: user)
                 } else {
                     print(weather.current?.lastUpdated)
                 }
