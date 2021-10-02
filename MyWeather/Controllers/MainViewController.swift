@@ -44,7 +44,7 @@ class MainViewController: UIViewController {
 //        minTempLabel.text = String(lround(weather.forecast?.forecastday.first?.day?.mintempC ?? 0))
 //        maxTempLabel.text = String(lround(weather.forecast?.forecastday.first?.day?.maxtempC ?? 0))
 
-        conditionLabel.text = "\(user.first?.cities.first?.main?.current?.weather.first?.main ?? "") \(user.first?.cities.first?.main?.current?.weather.first?.description ?? "")"
+        conditionLabel.text = "\(user.first?.cities.first?.main?.current?.weather.first?.main ?? "") \(user.first?.cities.first?.main?.current?.weather.first?.weatherDescription ?? "")"
     }
 
     private func getLocation() {
@@ -56,9 +56,13 @@ class MainViewController: UIViewController {
                 if let weather = weather {
                     if user.first?.cities.first?.main == nil {
                         
+                        let city = Cities()
+                        city.name = weather.timezone
+                        city.main = weather
+                        
                         let user = User()
-                        user.cities.first?.name = "Test"
-                        user.cities.first?.main = weather
+                        user.cities.append(city)
+
                         
                         StorageManager.shared.saveObject(object: user)
                     } else {
