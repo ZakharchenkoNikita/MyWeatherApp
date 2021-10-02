@@ -20,14 +20,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var conditionImage: UIImageView!
     
     var dataFetcherService = DataFetcherService()
-
-    lazy var locationManager: CLLocationManager = {
-        let locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        return locationManager
-    }()
     
     // MARK: Private properties
     private var currentWeather: Results<Weather>!
@@ -35,20 +27,15 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.requestLocation()
-        }
         currentWeather = StorageManager.shared.realm.objects(Weather.self)
         forecastday = StorageManager.shared.realm.objects(Forecastday.self)
-        
-        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
-            print("таймер закончен")
-        }
+        getLocation()
     }
     
     private func setupView(weather: Weather) {
+        
         title = weather.location?.name ?? ""
+        
         currentTempLabel.text = String(lround(weather.current?.tempC ?? 0))
         feelsLikeLabel.text = String(lround(weather.current?.feelslikeC ?? 0))
         minTempLabel.text = String(lround(forecastday?.first?.day?.mintempC ?? 0))
@@ -56,35 +43,29 @@ class MainViewController: UIViewController {
         
         conditionLabel.text = weather.current?.condition?.text ?? ""
     }
-}
-
-extension MainViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        let latitude = location.coordinate.latitude
-        let longitude = location.coordinate.longitude
-        
-        dataFetcherService.fetchWeather(latitude: latitude, longitude: longitude) { [unowned self] weather in
-            if let weather = weather {
-                if currentWeather.first?.location == nil {
-                    
-                    let city = Cities()
-                    city.name = weather.location?.name ?? ""
-                    city.weather = weather
-                    
-                    let user = User()
-                    user.cities.append(city)
-                    
-                    StorageManager.shared.saveObject(object: user)
-                } else {
-                    
+    
+    private func getLocation() {
+        LocationManager.shared.start { [unowned self] location in
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            dataFetcherService.fetchWeather(latitude: latitude, longitude: longitude) { [unowned self] weather in
+                if let weather = weather {
+                    if currentWeather.first?.location == nil {
+                        
+                        let city = Cities()
+                        city.name = weather.location?.name ?? ""
+                        city.weather = weather
+                        
+                        let user = User()
+                        user.cities.append(city)
+                        
+                        StorageManager.shared.saveObject(object: user)
+                    } else {
+                    }
+                    setupView(weather: weather)
                 }
-                setupView(weather: weather)
             }
         }
     }
-
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error.localizedDescription)
-    }
 }
+
