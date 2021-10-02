@@ -5,7 +5,6 @@
 //  Created by Nikita on 18.09.21.
 //
 
-import CoreLocation
 import RealmSwift
 
 class MainViewController: UIViewController {
@@ -23,12 +22,10 @@ class MainViewController: UIViewController {
     
     // MARK: Private properties
     private var currentWeather: Results<Weather>!
-    private var forecastday: Results<Forecastday>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         currentWeather = StorageManager.shared.realm.objects(Weather.self)
-        forecastday = StorageManager.shared.realm.objects(Forecastday.self)
         getLocation()
     }
     
@@ -38,8 +35,8 @@ class MainViewController: UIViewController {
         
         currentTempLabel.text = String(lround(weather.current?.tempC ?? 0))
         feelsLikeLabel.text = String(lround(weather.current?.feelslikeC ?? 0))
-        minTempLabel.text = String(lround(forecastday?.first?.day?.mintempC ?? 0))
-        maxTempLabel.text = String(lround(forecastday?.first?.day?.maxtempC ?? 0))
+        minTempLabel.text = String(lround(weather.forecast?.forecastday.first?.day?.mintempC ?? 0))
+        maxTempLabel.text = String(lround(weather.forecast?.forecastday.first?.day?.maxtempC ?? 0))
         
         conditionLabel.text = weather.current?.condition?.text ?? ""
     }

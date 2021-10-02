@@ -22,7 +22,7 @@ class LocationManager: NSObject {
         locationManager.delegate = self
     }
     
-    func start(locationHandler: @escaping ((_ location: CLLocation) -> Void)) {
+    func start(_ locationHandler: @escaping ((_ location: CLLocation) -> Void)) {
         setupLocationManager()
         self.locationHandler = locationHandler
         locationManager.requestAlwaysAuthorization()
@@ -38,19 +38,12 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        let accuracyAuthorization = manager.authorizationStatus
-        
-        switch accuracyAuthorization {
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .denied:
-            print("Location Services are Disable")
-        case .authorizedAlways, .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
-        case .authorized, .restricted:
-            break
-        @unknown default:
-            break
+        switch manager.authorizationStatus {
+        case .notDetermined: locationManager.requestWhenInUseAuthorization()
+        case .denied: print("Location Services are Disable")
+        case .authorizedAlways, .authorizedWhenInUse: locationManager.startUpdatingLocation()
+        case .authorized, .restricted: break
+        @unknown default: break
         }
     }
     
