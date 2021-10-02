@@ -10,5 +10,9 @@ import RealmSwift
 class Weather: Object, Decodable {
     @objc dynamic var id = 0
     @objc dynamic var main = ""
-    @objc dynamic var description = ""
+    @objc dynamic var weatherDescription = ""
+    
+    enum CodingKeys: String, CodingKey {
+        case id, main, weatherDescription = "description"
+    }
 }

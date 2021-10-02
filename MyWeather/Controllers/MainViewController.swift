@@ -21,48 +21,52 @@ class MainViewController: UIViewController {
     var dataFetcherService = DataFetcherService()
     
     // MARK: Private properties
-    private var currentWeather: Results<Weather>!
+    private var user: Results<User>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentWeather = StorageManager.shared.realm.objects(Weather.self)
-//        getLocation()
+        user = StorageManager.shared.realm.objects(User.self)
+        getLocation()
+        
+        dataFetcherService.fetchWeather(latitude: 46.4775, longitude: 30.7326) { weather in
+            print(weather?.current?.weather.first?.weatherDescription)
+        }
     }
     
-//    private func setupView(weather: Weather) {
-//
-//        title = weather.location?.name ?? ""
-//
-//        currentTempLabel.text = String(lround(weather.current?.tempC ?? 0))
+    private func setupView(weather: Main) {
+        
+        let currentTemp = ConverterManager.shared.celsiusFrom(kelvin: user.first?.cities.first?.main?.current?.temp ?? 0.0)
+
+        title = user.first?.cities.first?.name ?? "Test"
+
+        currentTempLabel.text = String(currentTemp)
 //        feelsLikeLabel.text = String(lround(weather.current?.feelslikeC ?? 0))
 //        minTempLabel.text = String(lround(weather.forecast?.forecastday.first?.day?.mintempC ?? 0))
 //        maxTempLabel.text = String(lround(weather.forecast?.forecastday.first?.day?.maxtempC ?? 0))
-//
-//        conditionLabel.text = weather.current?.condition?.text ?? ""
-//    }
-//
-//    private func getLocation() {
-//        LocationManager.shared.start { [unowned self] location in
-//            let latitude = location.coordinate.latitude
-//            let longitude = location.coordinate.longitude
-//            dataFetcherService.fetchWeather(latitude: latitude, longitude: longitude) { [unowned self] weather in
-//                if let weather = weather {
-//                    if currentWeather.first?.location == nil {
-//
-//                        let city = Cities()
-//                        city.name = weather.location?.name ?? ""
-//                        city.weather = weather
-//
-//                        let user = User()
-//                        user.cities.append(city)
-//
-//                        StorageManager.shared.saveObject(object: user)
-//                    } else {
-//                    }
-//                    setupView(weather: weather)
-//                }
-//            }
-//        }
-//    }
+
+        conditionLabel.text = "\(user.first?.cities.first?.main?.current?.weather.first?.main ?? "") \(user.first?.cities.first?.main?.current?.weather.first?.description ?? "")"
+    }
+
+    private func getLocation() {
+        LocationManager.shared.start { [unowned self] location in
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            dataFetcherService.fetchWeather(latitude: latitude, longitude: longitude) { [unowned self] weather in
+                if let weather = weather {
+                    if user.first?.cities.first?.main == nil {
+                        
+                        let user = User()
+                        user.cities.first?.name = "Test"
+                        user.cities.first?.main = weather
+                        
+                        StorageManager.shared.saveObject(object: user)
+                    } else {
+                    }
+                    setupView(weather: weather)
+                }
+            }
+        }
+    }
 }
 

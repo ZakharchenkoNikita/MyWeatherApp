@@ -20,6 +20,5 @@ class Current: Object, Decodable {
     @objc dynamic var visibility = 0
     @objc dynamic var windSpeed = 0.0
     @objc dynamic var windDeg = 0
-    @objc dynamic var windGust = 0.0
-    @objc dynamic var weather: Weather?
+    var weather = List<Weather>()
 }

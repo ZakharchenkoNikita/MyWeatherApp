@@ -13,5 +13,5 @@ class User: Object {
 
 class Cities: Object {
     @objc dynamic var name = ""
-    @objc dynamic var weather: Weather?
+    @objc dynamic var main: Main?
 }
