@@ -26,43 +26,43 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         currentWeather = StorageManager.shared.realm.objects(Weather.self)
-        getLocation()
+//        getLocation()
     }
     
-    private func setupView(weather: Weather) {
-        
-        title = weather.location?.name ?? ""
-        
-        currentTempLabel.text = String(lround(weather.current?.tempC ?? 0))
-        feelsLikeLabel.text = String(lround(weather.current?.feelslikeC ?? 0))
-        minTempLabel.text = String(lround(weather.forecast?.forecastday.first?.day?.mintempC ?? 0))
-        maxTempLabel.text = String(lround(weather.forecast?.forecastday.first?.day?.maxtempC ?? 0))
-        
-        conditionLabel.text = weather.current?.condition?.text ?? ""
-    }
-    
-    private func getLocation() {
-        LocationManager.shared.start { [unowned self] location in
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
-            dataFetcherService.fetchWeather(latitude: latitude, longitude: longitude) { [unowned self] weather in
-                if let weather = weather {
-                    if currentWeather.first?.location == nil {
-                        
-                        let city = Cities()
-                        city.name = weather.location?.name ?? ""
-                        city.weather = weather
-                        
-                        let user = User()
-                        user.cities.append(city)
-                        
-                        StorageManager.shared.saveObject(object: user)
-                    } else {
-                    }
-                    setupView(weather: weather)
-                }
-            }
-        }
-    }
+//    private func setupView(weather: Weather) {
+//
+//        title = weather.location?.name ?? ""
+//
+//        currentTempLabel.text = String(lround(weather.current?.tempC ?? 0))
+//        feelsLikeLabel.text = String(lround(weather.current?.feelslikeC ?? 0))
+//        minTempLabel.text = String(lround(weather.forecast?.forecastday.first?.day?.mintempC ?? 0))
+//        maxTempLabel.text = String(lround(weather.forecast?.forecastday.first?.day?.maxtempC ?? 0))
+//
+//        conditionLabel.text = weather.current?.condition?.text ?? ""
+//    }
+//
+//    private func getLocation() {
+//        LocationManager.shared.start { [unowned self] location in
+//            let latitude = location.coordinate.latitude
+//            let longitude = location.coordinate.longitude
+//            dataFetcherService.fetchWeather(latitude: latitude, longitude: longitude) { [unowned self] weather in
+//                if let weather = weather {
+//                    if currentWeather.first?.location == nil {
+//
+//                        let city = Cities()
+//                        city.name = weather.location?.name ?? ""
+//                        city.weather = weather
+//
+//                        let user = User()
+//                        user.cities.append(city)
+//
+//                        StorageManager.shared.saveObject(object: user)
+//                    } else {
+//                    }
+//                    setupView(weather: weather)
+//                }
+//            }
+//        }
+//    }
 }
 

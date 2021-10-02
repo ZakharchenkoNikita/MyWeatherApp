@@ -8,11 +8,18 @@
 import RealmSwift
 
 class Current: Object, Decodable {
-    @objc dynamic var lastUpdatedEpoch = 0
-    @objc dynamic var lastUpdated = ""
-    @objc dynamic var tempC = 0.0
-    @objc dynamic var isDay = 0
-    @objc dynamic var condition: Condition?
-    @objc dynamic var feelslikeC = 0.0
-    @objc dynamic var visKm = 0.0
+    @objc dynamic var dt = 0
+    @objc dynamic var sunrise = 0
+    @objc dynamic var sunset = 0
+    @objc dynamic var temp = 0.0
+    @objc dynamic var feelsLike = 0.0
+    @objc dynamic var pressure = 0
+    @objc dynamic var humidity = 0
+    @objc dynamic var dewPoint = 0.0
+    @objc dynamic var clouds = 0
+    @objc dynamic var visibility = 0
+    @objc dynamic var windSpeed = 0.0
+    @objc dynamic var windDeg = 0
+    @objc dynamic var windGust = 0.0
+    @objc dynamic var weather: Weather?
 }
