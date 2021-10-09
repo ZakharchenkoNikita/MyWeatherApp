@@ -148,7 +148,13 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="s1w-3A-Aiy" secondAttribute="trailing" constant="20" id="pBI-N5-UOz"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="ii9-N9-I8z"/>
+                    <navigationItem key="navigationItem" id="ii9-N9-I8z">
+                        <barButtonItem key="rightBarButtonItem" image="map" catalog="system" id="ejn-gp-7tX">
+                            <connections>
+                                <segue destination="Hui-xq-WOv" kind="show" id="JF5-23-Yy2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="conditionImage" destination="od2-hz-mrv" id="hTT-T1-rna"/>
                         <outlet property="conditionLabel" destination="Erp-E8-8aa" id="cl2-ja-ksd"/>
@@ -156,7 +162,6 @@
                         <outlet property="feelsLikeLabel" destination="EUh-fZ-mtu" id="Ffg-42-3I7"/>
                         <outlet property="maxTempLabel" destination="Wf7-1d-kjM" id="UeM-Zi-lkw"/>
                         <outlet property="minTempLabel" destination="EkN-l0-kbL" id="hbS-tX-5fO"/>
-                        <segue destination="Hui-xq-WOv" kind="presentation" identifier="mapView" modalPresentationStyle="fullScreen" id="wfN-8t-kVm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -184,9 +189,7 @@
                             <constraint firstAttribute="bottom" secondItem="y71-Af-aia" secondAttribute="bottom" id="cDv-Ad-iON"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="l9A-OJ-3eN">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="Zfv-yE-jIO"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="l9A-OJ-3eN"/>
                     <connections>
                         <outlet property="mapView" destination="y71-Af-aia" id="kI7-2d-hP9"/>
                     </connections>
@@ -215,6 +218,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="map" catalog="system" width="128" height="110"/>
         <image name="sun.max" catalog="system" width="128" height="124"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

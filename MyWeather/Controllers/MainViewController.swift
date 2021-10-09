@@ -6,6 +6,7 @@
 //
 
 import RealmSwift
+import CoreLocation
 
 class MainViewController: UIViewController {
     
@@ -27,24 +28,25 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         user = StorageManager.shared.realm.objects(User.self)
         getLocation()
-        
-        dataFetcherService.fetchWeather(latitude: 46.4775, longitude: 30.7326) { weather in
-            print(weather?.current?.weather.first?.weatherDescription)
-        }
+        setupView()
     }
     
-    private func setupView(weather: Main) {
+    private func setupCity(mark: CLPlacemark) {
+        title = mark.locality
+    }
+    
+    private func setupView() {
         
         let currentTemp = ConverterManager.shared.celsiusFrom(kelvin: user.first?.cities.first?.main?.current?.temp ?? 0.0)
 
-        title = user.first?.cities.first?.name ?? "Test"
+//        title = user.first?.cities.first?.name ?? "Test"
 
         currentTempLabel.text = String(currentTemp)
 //        feelsLikeLabel.text = String(lround(weather.current?.feelslikeC ?? 0))
 //        minTempLabel.text = String(lround(weather.forecast?.forecastday.first?.day?.mintempC ?? 0))
 //        maxTempLabel.text = String(lround(weather.forecast?.forecastday.first?.day?.maxtempC ?? 0))
 
-        conditionLabel.text = "\(user.first?.cities.first?.main?.current?.weather.first?.main ?? "") \(user.first?.cities.first?.main?.current?.weather.first?.weatherDescription ?? "")"
+        conditionLabel.text = user.first?.cities.first?.main?.current?.weather.first?.weatherStatus
     }
 
     private func getLocation() {
@@ -67,8 +69,12 @@ class MainViewController: UIViewController {
                         StorageManager.shared.saveObject(object: user)
                     } else {
                     }
-                    setupView(weather: weather)
                 }
+            }
+            
+            LocationManager.shared.getPlace(location: location) { mark in
+                guard let mark = mark else { return }
+                setupCity(mark: mark)
             }
         }
     }

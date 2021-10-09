@@ -12,6 +12,10 @@ class Weather: Object, Decodable {
     @objc dynamic var main = ""
     @objc dynamic var weatherDescription = ""
     
+    var weatherStatus: String {
+        "\(main) (\(weatherDescription))"
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id, main, weatherDescription = "description"
     }

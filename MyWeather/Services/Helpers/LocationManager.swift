@@ -8,25 +8,38 @@
 import CoreLocation
 
 class LocationManager: NSObject {
-
+    
     static let shared = LocationManager()
     
     var locationManager: CLLocationManager!
     var locationHandler: ((CLLocation) -> Void)!
-    
+
     private override init() {}
     
-    func setupLocationManager() {
-        locationManager = CLLocationManager()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.delegate = self
-    }
     
     func start(_ locationHandler: @escaping ((_ location: CLLocation) -> Void)) {
         setupLocationManager()
         self.locationHandler = locationHandler
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
+    }
+    
+    func getPlace(location: CLLocation, completion: @escaping (CLPlacemark?) -> Void) {
+        let geocoder = CLGeocoder()
+        
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            guard let placemark = placemarks?.first else {
+                completion(nil)
+                return
+            }
+            completion(placemark)
+        }
+    }
+    
+    private func setupLocationManager() {
+        locationManager = CLLocationManager()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.delegate = self
     }
 }
 
